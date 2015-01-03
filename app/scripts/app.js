@@ -11,10 +11,10 @@ var cellsim = angular.module('CellSimModule', [])
         controller: 'MainCtrl'
       })*/
       .when('/view/:id', {
-        templateUrl: '/views/viewSim.html',
+        templateUrl: 'views/viewSim.html',
         controller: 'ViewSimCtrl'
       })
       .otherwise({
-        redirectTo: '/view/1'
+        redirectTo: 'view/1'
       });
   }]);
