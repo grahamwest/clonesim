@@ -1,0 +1,53 @@
+<h1>Clonal Drift Simulation</h1>
+
+<p>
+	Number of cells in generation 0: <input type="number" max="1000" min="1" ng-model="numCells" />
+	Number of new generations: <input type="number" max="10000" min="1" ng-model="numGenerations" />
+</p>
+
+<p>
+Array seed strategy: Proportion of positive cells = <input type="number" step="any" max="1" min="0" ng-model="seedStrategyParam" />. Random groups of <input type="number" step="any" min="1" ng-model="clumpSize" /> cells.
+<select ng-model="seedStrategy" ng-options="opt.label for opt in seedStrategies" style="display: none;"></select>
+</p>
+
+<p>
+Probabilities (at each generation): Stem cell replaced by neighbour = <input type="number" step="any" max="1" min="0" ng-model="iterationStrategyParam.replacedByNeighbourRate" />. Stem cell lost = <input type="number" step="any" max="1" min="0" ng-model="iterationStrategyParam.decayRate" />.
+<select ng-model="iterationStrategy" ng-options="opt.label for opt in iterationStrategies" style="display: none;"></select>
+</p>
+
+<p>
+<button ng-click="runNewSim()">Run New Simulation</button>
+</p>
+
+<div sim-grid="SimRun" class="simulation-grid" colorTrue="{{colorsTrue}}" colorVoid="{{colorsVoid}}" colorFalse="{{colorsFalse}}"></div>
+
+<p ng-init="selectedGeneration = 0;">
+Actual proportion of positive cells = {{ (simResult.data[selectedGeneration].countCellsWithValue(true) / (simResult.data[selectedGeneration].countCellsWithValue(true) + simResult.data[selectedGeneration].countCellsWithValue(false)) ) || "N/A"}} (generation {{selectedGeneration}}).
+</p>
+
+<p>
+Draw Voids:
+<select ng-model="drawVoids" ng-options="opt.label for opt in drawVoidsOptions"></select>
+Canvas width: <input type="number" step="any" min="0" ng-model="canvasWidth" />
+Canvas height: <input type="number" step="any" min="0" ng-model="canvasHeight" />
+</p>
+
+<p>
+Positive Color: <input type="color" ng-model="colorsTrue" />
+Negative Color: <input type="color" ng-model="colorsFalse" />
+Void Color: <input type="color" ng-model="colorsVoid" />
+</p>
+
+<p>
+<button ng-click="redraw()">Redraw</button>
+
+<b>Partial Render:</b>
+<button ng-click="step(1)">Step + 1</button>
+Start Generation: <input type="number" step="any" min="0" ng-model="firstGenerationToDraw" />
+Last Generation: <input type="number" step="any" min="0" ng-model="lastGenerationToDraw" />
+</p>
+
+<p>
+	<button ng-click="saveAsCsv()">Save Data as CSV...</button>
+	<button ng-click="saveAsPng()">Save Image as PNG...</button>
+</p>
