@@ -183,6 +183,34 @@
       return cnt;
     };
 
+    Generation.prototype.toStripes = function() {
+
+      var stripes = [];
+      for (var i = 0; i < this.data.length; i++) {
+        var cell = this.data[i];
+        if (cell != null) {
+          // this is a new stripe if it's the first one or different from the last
+          if ((stripes.length === 0) || (stripes[stripes.length - 1] != cell))
+          {
+            stripes.push(cell);
+          }
+        }
+      }
+
+      // close loop - generation is circular so remove double counting at boundary
+      if ((stripes.length > 2) && (stripes[0] == stripes[stripes.length - 1]))
+      {
+         stripes.pop();
+      }
+      return stripes;
+    };
+
+    Generation.prototype.countRunsWithValue = function(v) {
+
+      return this.toStripes().filter(function(e) { return e === v;} ).length;
+    };
+
+/*
     Generation.prototype.countRunsWithValue = function(v) {
       
       var cell, cnt, old;
@@ -220,10 +248,12 @@
 
       return cnt;
     };
+  */
 
     return Generation;
 
   })(Collection);
+
 
   Cell = (function() {
 
